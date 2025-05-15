@@ -1,0 +1,9 @@
+:root {
+    --color-background: lightblue;
+    --color-text: black;
+    --spacing-small: 0.5em;
+    --spacing-medium: 1em;
+    --spacing-large: 2em;
+    --font-size-large: 1.25em;
+    --max-width: 40em;
+}
