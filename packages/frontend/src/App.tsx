@@ -66,7 +66,7 @@ function App() {
 
     return (
         <div>
-            <Header />
+            <Header title="Event Manager" createLink={true} homeLink={false} submitButton={false} />
             <EventSection title="Your Events">
                 {renderEventCards(yourEvents)}
             </EventSection>

@@ -47,3 +47,87 @@ li {
     text-decoration: none;
     color: var(--color-text);
 }
+
+/* createevent.css */
+form {
+    max-width: var(--max-width);
+    margin: var(--spacing-small);
+    font-size: var(--font-size-xlarge);
+    padding: var(--spacing-small);
+}
+
+form input {
+    width: 100%;
+    font-size: var(--font-size-large);
+}
+
+label {
+    text-align: left;
+}
+
+.date-inputs {
+    display: flex;
+    gap: var(--spacing-medium);
+    align-items: center;
+
+}
+
+.date-inputs input {
+    text-align: center;
+}
+
+.description-input {
+    min-height: 16em;
+    resize: none;
+    font-size: var(--font-size-large);
+}
+
+.people-inputs {
+    display: flex;
+    gap: var(--spacing-large);
+}
+
+.people-inputs input {
+    text-align: center;
+}
+
+.description-container label, .description-container textarea {
+    width: 100%;
+}
+
+.general-inputs, .date-container, .description-container, .people-container {
+    display: block;
+    margin-bottom: var(--spacing-medium);
+}
+
+
+@media (min-width: 42em) {
+    /* this is for desktop screens */
+
+    .form {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        font-size: var(--font-size-large);
+        padding: var(--spacing-large);
+    }
+
+    .general-inputs, .date-container, .description-container, .people-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        margin-bottom: var(--spacing-medium);
+        column-gap: var(--spacing-medium);
+    }
+
+    label {
+        text-align: center;
+    }
+
+    form input {
+        width: 100%;
+        font-size: 0.75em;
+    }
+
+    .description-input {
+        min-height: 12em;
+    }
+}
