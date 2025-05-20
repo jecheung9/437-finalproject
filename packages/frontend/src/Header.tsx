@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 interface IHeaderProps {
     title: string;
     createLink: boolean;
@@ -8,9 +10,9 @@ interface IHeaderProps {
 function Header(props: IHeaderProps) {
     return (
         <header>
-            {props.homeLink && <a href="main.html"> Return to Home</a>}
+            {props.homeLink && <Link to="/">Return to Home</Link>}
             <h1>{props.title}</h1>
-            {props.createLink && <a href="createevent.html">Create Event</a>}
+            {props.createLink && <Link to="/create">Create Event</Link>}
             {props.submitButton && <button>Submit</button>}
         </header>
     );
