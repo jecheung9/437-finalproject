@@ -3,51 +3,17 @@ import Header from "./Header";
 import EventCard from "./EventCard";
 import type { IEventCardProps } from "./EventCard";
 
-
-const events = [
-    {
-        title: "Birthday Party",
-        numInterested: 6,
-        dateTime: "04/24/2025 5:30pm",
-        location: "12345 Jones Ave.",
-        description: "Some form of a description here",
-        isInterested: false,
-        isOwnEvent: true,
-    },
-    {
-        title: "Wedding",
-        numInterested: 400,
-        dateTime: "04/26/2025 9:30am",
-        location: "12345 Jones Ave.",
-        description: "Some form of a description here that is very long to test some stuff 123aaaaaaaaaa",
-        maxPeople: 400,
-        isInterested: true,
-        isOwnEvent: false,
-    },
-    {
-        title: "Game Night",
-        numInterested: 1,
-        dateTime: "04/27/2025 1:30am",
-        isInterested: false,
-        isOwnEvent: false,   
-    },
-    {
-        title: "NBA Playoffs Watch Party",
-        numInterested: 4,
-        dateTime: "04/26/2025 5:30pm",
-        location: "12345 Jones Ave.",
-        description: "Some form of a description here",
-        minPeople: 2,
-        isInterested: false,
-        isOwnEvent: false,
-    },
-]
+interface IHomeProps {
+    events: IEventCardProps[];
+}
 
 
-function Home() {
+function Home({events}: IHomeProps) {
     function renderEventCards(eventList: IEventCardProps[]) {
         return eventList.map((event) => (
         <EventCard
+            id={event.id}
+            key={event.id}    
             title={event.title}
             numInterested={event.numInterested}
             dateTime={event.dateTime}

@@ -5,6 +5,7 @@ interface IHeaderProps {
     createLink: boolean;
     homeLink: boolean;
     submitButton: boolean;
+    onSubmit?: () => void;
 }
 
 function Header(props: IHeaderProps) {
@@ -13,7 +14,7 @@ function Header(props: IHeaderProps) {
             {props.homeLink && <Link to="/">Return to Home</Link>}
             <h1>{props.title}</h1>
             {props.createLink && <Link to="/create">Create Event</Link>}
-            {props.submitButton && <button>Submit</button>}
+            {props.submitButton && <button onClick={props.onSubmit}>Submit</button>}
         </header>
     );
 }
