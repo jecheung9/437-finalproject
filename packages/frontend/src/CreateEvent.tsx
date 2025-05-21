@@ -8,9 +8,11 @@ import { useNavigate } from "react-router"
 
 interface ICreateEventProps {
     onAddEvent: (newEvent: IEventCardProps) => void;
+    nextId: number;
+    setNextId: (id: number) => void;
 }
 
-function CreateEvent({onAddEvent}: ICreateEventProps) {
+function CreateEvent(props: ICreateEventProps) {
     const [title, setTitle] = useState("");
     const [month, setMonth] = useState("");
     const [day, setDay] = useState("");
@@ -26,7 +28,7 @@ function CreateEvent({onAddEvent}: ICreateEventProps) {
     function handleButtonClicked() {
         const dateTime = `${month}/${day}/${year} ${time}`;
         const newEvent = {
-            id: "", 
+            id: String(props.nextId),
             title: title,
             numInterested: 0,
             dateTime,
@@ -37,8 +39,9 @@ function CreateEvent({onAddEvent}: ICreateEventProps) {
             isInterested: false,
             isOwnEvent: true,
         };
-        onAddEvent(newEvent);
+        props.onAddEvent(newEvent);
         navigate("/");
+        props.setNextId(props.nextId + 1);
         setTitle("");
         setMonth("");
         setDay("");

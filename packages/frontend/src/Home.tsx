@@ -2,6 +2,7 @@ import EventSection from "./EventSection";
 import Header from "./Header";
 import EventCard from "./EventCard";
 import type { IEventCardProps } from "./EventCard";
+import { Link } from "react-router";
 
 interface IHomeProps {
     events: IEventCardProps[];
@@ -11,19 +12,21 @@ interface IHomeProps {
 function Home({events}: IHomeProps) {
     function renderEventCards(eventList: IEventCardProps[]) {
         return eventList.map((event) => (
-        <EventCard
-            id={event.id}
-            key={event.id}    
-            title={event.title}
-            numInterested={event.numInterested}
-            dateTime={event.dateTime}
-            location={event.location}
-            description={event.description}
-            minPeople={event.minPeople}
-            maxPeople={event.maxPeople}
-            isInterested={event.isInterested}
-            isOwnEvent={event.isOwnEvent}
-        />
+        <Link key={event.id} to={"/events/" + event.id}>
+            <EventCard
+                id={event.id}
+                key={event.id}    
+                title={event.title}
+                numInterested={event.numInterested}
+                dateTime={event.dateTime}
+                location={event.location}
+                description={event.description}
+                minPeople={event.minPeople}
+                maxPeople={event.maxPeople}
+                isInterested={event.isInterested}
+                isOwnEvent={event.isOwnEvent}
+            />
+        </Link>
         ));
     }
 

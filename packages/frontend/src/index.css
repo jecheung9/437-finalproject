@@ -100,6 +100,28 @@ label {
     margin-bottom: var(--spacing-medium);
 }
 
+/* eventdetalils.css */
+.event {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    font-size: var(--font-size-large);
+    padding: var(--spacing-large);
+    row-gap: var(--spacing-medium);
+    column-gap: var(--spacing-medium);
+}
+
+.buttons {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+}
+
+button {
+    padding: var(--spacing-medium);
+}
+
 
 @media (min-width: 42em) {
     /* this is for desktop screens */

@@ -3,6 +3,7 @@ import Home from "./Home";
 import CreateEvent from "./CreateEvent";
 import { useState } from "react";
 import type { IEventCardProps } from "./EventCard";
+import EventDetails from "./EventDetails";
 
 const initialEvents = [
     {
@@ -50,6 +51,7 @@ const initialEvents = [
 
 function App() {
     const [events, setEvents] = useState<IEventCardProps[]>(initialEvents);
+    const [nextId, setNextId] = useState(initialEvents.length + 1);
 
     function addEvent(newEvent: IEventCardProps) {
         const updatedEvents = [...events, newEvent];
@@ -59,7 +61,8 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Home events={events} />} />
-            <Route path="/create" element={<CreateEvent onAddEvent={addEvent}/>} />
+            <Route path="/create" element={<CreateEvent onAddEvent={addEvent} nextId={nextId} setNextId={setNextId} />} />
+            <Route path="/events/:id" element={<EventDetails events={events} />} />
         </Routes>
     );
 }
