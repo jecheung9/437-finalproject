@@ -13,6 +13,10 @@ header {
     color: var(--color-header-text);
 }
 
+header a {
+    color: var(--color-header-text)
+}
+
 .event-category {
     padding: var(--spacing-small);
 
