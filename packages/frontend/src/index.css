@@ -1,16 +1,16 @@
 * {
     margin: 0;
     padding: 0;
-
 }
 
-/* main.css */
+/* home.css */
 header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background-color: var(--color-background);
+    background-color: var(--color-header-background);
     padding: var(--spacing-medium);
+    gap: var(--spacing-medium);
+    color: var(--color-header-text);
 }
 
 .event-category {
@@ -46,6 +46,12 @@ li {
 .event-cards a {
     text-decoration: none;
     color: var(--color-text);
+}
+
+.full {
+    min-height: 100vh;
+    color: var(--color-text);
+    background-color: var(--color-background);
 }
 
 /* createevent.css */

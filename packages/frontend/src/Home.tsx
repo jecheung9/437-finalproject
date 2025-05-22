@@ -1,5 +1,4 @@
 import EventSection from "./EventSection";
-import Header from "./Header";
 import EventCard from "./EventCard";
 import type { IEventCardProps } from "./EventCard";
 import { Link } from "react-router";
@@ -12,7 +11,7 @@ interface IHomeProps {
 function Home({events}: IHomeProps) {
     function renderEventCards(eventList: IEventCardProps[]) {
         return eventList.map((event) => (
-        <Link key={event.id} to={"/events/" + event.id}>
+        <Link className="card" key={event.id} to={"/events/" + event.id}>
             <EventCard
                 id={event.id}
                 key={event.id}    
@@ -35,7 +34,6 @@ function Home({events}: IHomeProps) {
 
     return (
         <div>
-            <Header title="Event Manager" createLink={true} homeLink={false} submitButton={false} />
             <EventSection title="Your Events">
                 {renderEventCards(yourEvents)}
             </EventSection>

@@ -1,5 +1,4 @@
 import type { IEventCardProps } from "./EventCard";
-import Header from "./Header";
 import { useParams } from "react-router";
 
 interface IEventDetailsProps {
@@ -16,11 +15,6 @@ function EventDetails(props: IEventDetailsProps) {
 
     return (
         <div>
-            <Header
-                title="Event Details"
-                createLink={false}
-                homeLink={true}
-                submitButton={false}/>
             <div className="event">
                 <div className="label"> Title </div> {event.title}
                 <div className="label"> Interested </div> {event.numInterested}

@@ -1,10 +1,20 @@
 :root {
-    --color-background: lightblue;
-    --color-text: black;
+    --color-header-background: lightblue;
+    --color-header-text: black;
     --spacing-small: 0.5em;
     --spacing-medium: 1em;
     --spacing-large: 2em;
     --font-size-large: 1.25em;
     --font-size-xlarge: 1.75em;
     --max-width: 40em;
+    --color-background: white;
+    --color-background-text: black;
+
+}
+
+.dark {
+    --color-header-background: #02011F;
+    --color-header-text: lightblue;
+    --color-background: black;
+    --color-text: white;
 }

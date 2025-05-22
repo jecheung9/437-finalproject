@@ -14,7 +14,7 @@ export interface IEventCardProps {
 
 function EventCard(props: IEventCardProps) {
     return (
-        <li className="card">
+        <li>
             <h2>{props.title}</h2>
             <ul>
                 <li><b>Interested: {props.numInterested}</b></li>

@@ -1,7 +1,6 @@
 import DateInput from "./DateInput"
 import GeneralInput from "./GeneralInput"
 import PeopleInput from "./PeopleInput"
-import Header from "./Header"
 import { useState } from "react"
 import type { IEventCardProps } from "./EventCard"
 import { useNavigate } from "react-router"
@@ -53,16 +52,16 @@ function CreateEvent(props: ICreateEventProps) {
         setMaxPeople(undefined);
     };
 
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        handleButtonClicked()
+    };
+    
+
     return (
         // TODO: input validation
         <div>
-            <Header
-                title="Create An Event"
-                createLink={false}
-                homeLink={true}
-                submitButton={true}
-                onSubmit={handleButtonClicked} />
-            <form className="form" onSubmit={(e) => e.preventDefault()}>
+            <form className="form" onSubmit={handleSubmit}>
                 <GeneralInput
                     id="title"
                     label="Title"
@@ -94,7 +93,11 @@ function CreateEvent(props: ICreateEventProps) {
                     minPeople={minPeople}
                     maxPeople={maxPeople}
                     onMinPeopleChange={(e) => setMinPeople(e.target.value === "" ? undefined : parseInt(e.target.value))}
-                    onMaxPeopleChange={(e) => setMaxPeople(e.target.value === "" ? undefined : parseInt(e.target.value))}/>
+                    onMaxPeopleChange={(e) => setMaxPeople(e.target.value === "" ? undefined : parseInt(e.target.value))} />
+                
+                <div className="buttons">
+                    <button type="submit">Submit</button>
+                </div>
             </form>
         </div>
     );
