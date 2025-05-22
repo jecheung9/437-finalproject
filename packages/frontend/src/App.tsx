@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { IEventCardProps } from "./EventCard";
 import EventDetails from "./EventDetails";
 import { Layout } from "./Layout";
+import { useNavigate } from "react-router";
 
 const initialEvents = [
     {
@@ -53,10 +54,30 @@ const initialEvents = [
 function App() {
     const [events, setEvents] = useState<IEventCardProps[]>(initialEvents);
     const [nextId, setNextId] = useState(initialEvents.length + 1);
+    const navigate = useNavigate();
 
     function addEvent(newEvent: IEventCardProps) {
         const updatedEvents = [...events, newEvent];
         setEvents(updatedEvents);
+    }
+
+    function toggleInterest(eventId: string) {
+        setEvents(events.map((event) => {
+            if (event.id === eventId) {
+                return {
+                    ...event,
+                    isInterested: !event.isInterested,
+                    numInterested: event.numInterested + (!event.isInterested ? 1 : -1),
+                };
+            }
+            return event;
+        }));
+        navigate("/");
+    }
+
+    function deleteEvent(eventId: string) {
+        setEvents(events.filter((event) => event.id !== eventId));
+        navigate("/");
     }
 
     return (
@@ -64,7 +85,7 @@ function App() {
             <Route path="/" element={<Layout/>}>
                 <Route index element={<Home events={events} />} />
                 <Route path="create" element={<CreateEvent onAddEvent={addEvent} nextId={nextId} setNextId={setNextId} />} />
-                <Route path="events/:id" element={<EventDetails events={events} />} />
+                <Route path="events/:id" element={<EventDetails events={events} toggleInterest={toggleInterest} deleteEvent={deleteEvent} />} />
             </Route>
         </Routes>
     );

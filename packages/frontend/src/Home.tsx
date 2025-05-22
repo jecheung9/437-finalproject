@@ -29,8 +29,8 @@ function Home({events}: IHomeProps) {
         ));
     }
 
-    const yourEvents = events.filter(event => event.isOwnEvent);
-    const interestedEvents = events.filter(event => event.isInterested);
+    const yourEvents = events.filter((event) => event.isOwnEvent);
+    const interestedEvents = events.filter((event) => event.isInterested);
 
     return (
         <div>

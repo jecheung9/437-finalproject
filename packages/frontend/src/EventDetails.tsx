@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 
 interface IEventDetailsProps {
     events: IEventCardProps[];
+    toggleInterest: (id: string) => void;
+    deleteEvent: (id: string) => void;
 }
 
 function EventDetails(props: IEventDetailsProps) {
@@ -26,9 +28,15 @@ function EventDetails(props: IEventDetailsProps) {
             </div>
 
             <div className="buttons">
-                <button>Interested?</button>
-                <button>Edit</button>
-                <button>Delete</button>
+                {!event.isOwnEvent && (
+                    <button
+                        onClick={() => props.toggleInterest(event.id)}
+                        disabled={(event.maxPeople !== undefined && event.numInterested === event.maxPeople && !event.isInterested)}>
+                        {!event.isInterested ? "I'm interested!" : "Uninterest"} </button>)}
+                {event.isOwnEvent && (
+                    <button>Edit</button>)}
+                {event.isOwnEvent && (
+                    <button onClick={() => props.deleteEvent(event.id)}>Delete</button>)}
             </div>
         </div>
     )
