@@ -7,15 +7,19 @@ interface ICreateEventProps {
     onAddEvent: (newEvent: IEventCardProps) => void;
     nextId: number;
     setNextId: (id: number) => void;
+    eventToEdit?: IEventCardProps;
+    onCancel?: () => void;
 }
 
 function CreateEvent(props: ICreateEventProps) {
-    const [title, setTitle] = useState("");
-    const [dateTime, setDateTime] = useState("");
-    const [location, setLocation] = useState("");
-    const [description, setDescription] = useState("");
-    const [minPeople, setMinPeople] = useState<number | undefined>(undefined);
-    const [maxPeople, setMaxPeople] = useState<number | undefined>(undefined);
+    const [title, setTitle] = useState(props.eventToEdit?.title || "");
+    const [dateTime, setDateTime] = useState(props.eventToEdit ? convertDateTimeFormat(props.eventToEdit.dateTime) : "");
+    const [location, setLocation] = useState(props.eventToEdit?.location || "");
+    const [description, setDescription] = useState(props.eventToEdit?.description || "");
+    const [minPeople, setMinPeople] = useState(props.eventToEdit?.minPeople);
+    const [maxPeople, setMaxPeople] = useState(props.eventToEdit?.maxPeople);
+    // const [minPeople, setMinPeople] = useState<number | undefined>(undefined);
+    // const [maxPeople, setMaxPeople] = useState<number | undefined>(undefined);
 
     const [titleError, setTitleError] = useState(false);
     const [dateTimeError, setDateTimeError] = useState(false);
@@ -25,8 +29,6 @@ function CreateEvent(props: ICreateEventProps) {
     const dateTimeRef = useRef<HTMLInputElement>(null);
     const locationRef = useRef<HTMLInputElement>(null);
     const minPeopleRef = useRef<HTMLInputElement>(null);
-    // const maxPeopleRef = useRef<HTMLInputElement>(null);
-
 
     function formatDateTime(input: string) {
         const year = input.slice(0, 4);
@@ -51,14 +53,36 @@ function CreateEvent(props: ICreateEventProps) {
         return `${month}/${day}/${year} ${hour}:${minutes}${ampm}`;
     }
 
+
+    // this is for my editing, need to convert back to the datetime local format
+    function convertDateTimeFormat(input: string) {
+        const [date, time] = input.split(' '); 
+        const [month, day, year] = date.split('/');
+        let [hourString, restOfTime] = time.split(':');
+        let hour = parseInt(hourString);
+
+        const minute = restOfTime.slice(0, 2);
+        const ampm = restOfTime.slice(2);
+
+        if (ampm === "pm" && hour < 12) {
+            hour += 12;
+        } else if (ampm === "am" && hour === 12) {
+            hour = 0;
+        }
+
+        hourString = hour.toString().padStart(2, '0');
+        
+        return `${year}-${month}-${day}T${hourString}:${minute}`;
+    }
+
     // submit button function, creates a newEvent object, then calls props.onAddEvent(newEvent),
     // and props.onAddEvent == addEvent function passed down from App
     function handleButtonClicked() {
         const dateTimeNew = formatDateTime(dateTime);
         const newEvent = {
-            id: String(props.nextId),
+            id: props.eventToEdit? props.eventToEdit.id: String(props.nextId),
             title: title,
-            numInterested: 0,
+            numInterested: props.eventToEdit ? props.eventToEdit.numInterested : 0,
             dateTime: dateTimeNew,
             location,
             description,
@@ -69,11 +93,13 @@ function CreateEvent(props: ICreateEventProps) {
         };
         props.onAddEvent(newEvent);
         props.setNextId(props.nextId + 1);
-        setTitle("");
-        setLocation("");
-        setDescription("");
-        setMinPeople(undefined);
-        setMaxPeople(undefined);
+        if (!props.eventToEdit) {
+            setTitle("");
+            setLocation("");
+            setDescription("");
+            setMinPeople(undefined);
+            setMaxPeople(undefined);
+        }
     };
 
     // input validation
@@ -200,6 +226,7 @@ function CreateEvent(props: ICreateEventProps) {
                     {peopleError && (<p id="peopleError">Max people cannot be less than min people</p>)}
                 </div>
                 <div className="buttons">
+                    <button onClick={props.onCancel}>Cancel</button>
                     <button type="submit">Submit</button>
                 </div>
             </form>

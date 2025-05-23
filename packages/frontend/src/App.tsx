@@ -84,12 +84,17 @@ function App() {
         navigate("/");
     }
 
+    // edit event function
+    function editEvent(updatedEvent: IEventCardProps) {
+        setEvents(events.map((event) => event.id === updatedEvent.id ? updatedEvent : event));
+    }
+
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>
                 <Route index element={<Home events={events} />} />
                 <Route path="create" element={<CreateEvent onAddEvent={addEvent} nextId={nextId} setNextId={setNextId} />} />
-                <Route path="events/:id" element={<EventDetails events={events} toggleInterest={toggleInterest} deleteEvent={deleteEvent} />} />
+                <Route path="events/:id" element={<EventDetails events={events} toggleInterest={toggleInterest} deleteEvent={deleteEvent} onEditEvent={editEvent} />} />
             </Route>
         </Routes>
     );
