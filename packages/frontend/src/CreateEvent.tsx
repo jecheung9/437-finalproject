@@ -1,9 +1,7 @@
-import DateInput from "./DateInput"
 import GeneralInput from "./GeneralInput"
 import PeopleInput from "./PeopleInput"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import type { IEventCardProps } from "./EventCard"
-import { useNavigate } from "react-router"
 
 interface ICreateEventProps {
     onAddEvent: (newEvent: IEventCardProps) => void;
@@ -13,24 +11,48 @@ interface ICreateEventProps {
 
 function CreateEvent(props: ICreateEventProps) {
     const [title, setTitle] = useState("");
-    const [month, setMonth] = useState("");
-    const [day, setDay] = useState("");
-    const [year, setYear] = useState("");
-    const [time, setTime] = useState("");
+    const [dateTime, setDateTime] = useState("");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const [minPeople, setMinPeople] = useState<number | undefined>(undefined);
     const [maxPeople, setMaxPeople] = useState<number | undefined>(undefined);
-    const navigate = useNavigate();
+
+    const [titleError, setTitleError] = useState(false);
+    const titleRef = useRef<HTMLInputElement>(null);
 
 
+    function formatDateTime(input: string) {
+        const year = input.slice(0, 4);
+        const month = input.slice(5, 7);
+        const day = input.slice(8, 10);
+        let hour = parseInt(input.slice(11, 13));
+        const minutes = input.slice(14, 16);
+        let ampm = "";
+
+        if (hour === 0) {
+            hour = 12;
+            ampm = "am";
+        } else if (hour > 12) {
+            hour = hour % 12;
+            ampm = "pm";
+        } else if (hour === 12) {
+            ampm = "pm";
+        } else {
+            ampm = "am";
+        }
+
+        return `${month}/${day}/${year} ${hour}:${minutes}${ampm}`;
+    }
+
+    // submit button function, creates a newEvent object, then calls props.onAddEvent(newEvent),
+    // and props.onAddEvent == addEvent function passed down from App
     function handleButtonClicked() {
-        const dateTime = `${month}/${day}/${year} ${time}`;
+        const dateTimeNew = formatDateTime(dateTime);
         const newEvent = {
             id: String(props.nextId),
             title: title,
             numInterested: 0,
-            dateTime,
+            dateTime: dateTimeNew,
             location,
             description,
             minPeople,
@@ -39,13 +61,8 @@ function CreateEvent(props: ICreateEventProps) {
             isOwnEvent: true,
         };
         props.onAddEvent(newEvent);
-        navigate("/");
         props.setNextId(props.nextId + 1);
         setTitle("");
-        setMonth("");
-        setDay("");
-        setYear("");
-        setTime("");
         setLocation("");
         setDescription("");
         setMinPeople(undefined);
@@ -54,28 +71,36 @@ function CreateEvent(props: ICreateEventProps) {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        handleButtonClicked()
+        if (title.trim() === "") {
+            setTitleError(true);
+            titleRef.current?.focus();
+        } else {
+            setTitleError(false);
+        }
+        handleButtonClicked();
     };
     
 
     return (
-        // TODO: input validation
         <div>
             <form className="form" onSubmit={handleSubmit}>
                 <GeneralInput
                     id="title"
                     label="Title"
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)} />
-                <DateInput
-                    month={month}
-                    day={day}
-                    year={year}
-                    time={time}
-                    onMonthChange={(e) => setMonth(e.target.value)}
-                    onDayChange={(e) => setDay(e.target.value)}
-                    onYearChange={(e) => setYear(e.target.value)}
-                    onTimeChange={(e) => setTime(e.target.value)} />
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    aria-invalid={titleError}
+                    aria-describedby="titleError"
+                    inputRef={titleRef} />
+                <div className="date-container">
+                    <label htmlFor="dateTime"> Date and Time</label>
+                    <input
+                        type="datetime-local"
+                        id="dateTime"
+                        value={dateTime}
+                        onChange={(e) => setDateTime(e.target.value)} />
+                </div>
                 <GeneralInput
                     id="location"
                     label="Location"
@@ -95,6 +120,9 @@ function CreateEvent(props: ICreateEventProps) {
                     onMinPeopleChange={(e) => setMinPeople(e.target.value === "" ? undefined : parseInt(e.target.value))}
                     onMaxPeopleChange={(e) => setMaxPeople(e.target.value === "" ? undefined : parseInt(e.target.value))} />
                 
+                <div className="error-messages">
+                    {titleError && (<p id="titleError"> Title cannot be empty</p>)}
+                </div>
                 <div className="buttons">
                     <button type="submit">Submit</button>
                 </div>

@@ -75,16 +75,6 @@ label {
     text-align: left;
 }
 
-.date-inputs {
-    display: flex;
-    gap: var(--spacing-medium);
-    align-items: center;
-
-}
-
-.date-inputs input {
-    text-align: center;
-}
 
 .description-input {
     min-height: 16em;
@@ -110,7 +100,14 @@ label {
     margin-bottom: var(--spacing-medium);
 }
 
-/* eventdetalils.css */
+.error-messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: red;
+}
+
+/* eventdetails.css */
 .event {
     display: grid;
     grid-template-columns: 1fr 3fr;

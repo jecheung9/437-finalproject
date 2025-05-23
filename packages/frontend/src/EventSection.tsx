@@ -3,6 +3,7 @@ interface IEventSectionProps {
     children: React.ReactNode;
 }
 
+// this defines the container for (ex. your events)
 function EventSection(props: IEventSectionProps) {
     return (
         <div>

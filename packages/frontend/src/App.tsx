@@ -52,16 +52,18 @@ const initialEvents = [
 
 
 function App() {
-    const [events, setEvents] = useState<IEventCardProps[]>(initialEvents);
-    const [nextId, setNextId] = useState(initialEvents.length + 1);
-    const navigate = useNavigate();
+    const [events, setEvents] = useState<IEventCardProps[]>(initialEvents); 
+    const [nextId, setNextId] = useState(initialEvents.length + 1); // useState to set the id
+    const navigate = useNavigate(); // navigate to go back to the home page on specific button clicks
 
+    // add event function (passed as a prop, because my state to control events is in here)
     function addEvent(newEvent: IEventCardProps) {
         const updatedEvents = [...events, newEvent];
         setEvents(updatedEvents);
+        navigate("/");
     }
-
-    function toggleInterest(eventId: string) {
+    // toggle interested button function (passed as prop)
+    function toggleInterest(eventId: string) { 
         setEvents(events.map((event) => {
             if (event.id === eventId) {
                 return {
@@ -75,6 +77,7 @@ function App() {
         navigate("/");
     }
 
+    // delete event function 
     function deleteEvent(eventId: string) {
         setEvents(events.filter((event) => event.id !== eventId));
         navigate("/");

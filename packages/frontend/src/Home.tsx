@@ -35,13 +35,16 @@ function Home({events}: IHomeProps) {
     return (
         <div>
             <EventSection title="Your Events">
-                {renderEventCards(yourEvents)}
+                {yourEvents.length === 0 ? (<p>You have no events created. Perhaps it's time to create an event...</p>)
+                : (renderEventCards(yourEvents))}
             </EventSection>
             <EventSection title="Interested Events">
-                {renderEventCards(interestedEvents)}
+                {interestedEvents.length === 0 ? (<p>You have no events interested. Perhaps it's time to find an event you're interested in...</p>)
+                : (renderEventCards(interestedEvents))}
             </EventSection>
             <EventSection title="All Events">
-                {renderEventCards(events)}
+                {events.length === 0 ? (<p>There are no events. Perhaps it's time to create an event...</p>)
+                : (renderEventCards(events))}
             </EventSection>
         </div>
     );

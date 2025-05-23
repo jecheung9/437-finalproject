@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router";
 import { Outlet } from "react-router";
 import Header from "./Header";
@@ -7,15 +7,7 @@ export function Layout() {
     const [darkMode, setDarkMode] = useState(false);
     const location = useLocation();
 
-
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
-    }, [darkMode]);
-
+    // different header layouts per page
     let headerProps = { title: "", createLink: false, homeLink: false };
 
     if (location.pathname === "/") {

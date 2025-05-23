@@ -8,6 +8,8 @@ interface IEventDetailsProps {
 }
 
 function EventDetails(props: IEventDetailsProps) {
+
+    // Getting details of an event based on id
     const { id } = useParams();
     const event = props.events.find(e => e.id === id);
     if (!event) {
@@ -27,6 +29,8 @@ function EventDetails(props: IEventDetailsProps) {
                 <div className="label">  Maximum people  </div> {event.maxPeople || "N/A"}
             </div>
 
+            {/* buttons show based on criteria, and clicking the buttons
+            will call the functions as props */}
             <div className="buttons">
                 {!event.isOwnEvent && (
                     <button

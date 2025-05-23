@@ -3,8 +3,14 @@ interface IGeneralInput {
     label: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    required?: boolean;
+    'aria-invalid'?: boolean;
+    'aria-describedby'?: string;
+    inputRef?: React.Ref<HTMLInputElement>;
 }
 
+// normal input box
+// ref is needed for focusing on input validation fail
 function GeneralInput(props: IGeneralInput) {
     return (
         <div className="general-inputs">
@@ -14,6 +20,7 @@ function GeneralInput(props: IGeneralInput) {
                 id={props.id}
                 value={props.value}
                 onChange={props.onChange}
+                ref={props.inputRef}
             />
         </div>
     );
