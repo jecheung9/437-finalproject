@@ -18,7 +18,14 @@ function CreateEvent(props: ICreateEventProps) {
     const [maxPeople, setMaxPeople] = useState<number | undefined>(undefined);
 
     const [titleError, setTitleError] = useState(false);
+    const [dateTimeError, setDateTimeError] = useState(false);
+    const [locationError, setLocationError] = useState(false);
+    const [peopleError, setPeopleError] = useState(false);
     const titleRef = useRef<HTMLInputElement>(null);
+    const dateTimeRef = useRef<HTMLInputElement>(null);
+    const locationRef = useRef<HTMLInputElement>(null);
+    const minPeopleRef = useRef<HTMLInputElement>(null);
+    // const maxPeopleRef = useRef<HTMLInputElement>(null);
 
 
     function formatDateTime(input: string) {
@@ -69,15 +76,69 @@ function CreateEvent(props: ICreateEventProps) {
         setMaxPeople(undefined);
     };
 
+    // input validation
+
+    // My Notes: People input validation
+    // 1. default value undefined
+    // 2. By PeopleInput.tsx, undefined --> ""
+    // This needs to happen because of controlled to controlled, react gets angry
+    // 3. on change, set to a number
+    // 4. If cleared, "" --> undefined when cleared
+    // 5. repeat step 2
+
+
     function handleSubmit(e: React.FormEvent) {
+
+        setTitleError(false);
+        setDateTimeError(false);
+        setLocationError(false);
+        setPeopleError(false);
+        let hasError = false;
         e.preventDefault();
         if (title.trim() === "") {
             setTitleError(true);
             titleRef.current?.focus();
+            hasError = true;
         } else {
             setTitleError(false);
         }
-        handleButtonClicked();
+
+        const current = new Date();
+        const inputDate = new Date(dateTime);
+        if (!dateTime || inputDate < current) {
+            setDateTimeError(true);
+            if (!hasError) {
+                dateTimeRef.current?.focus();
+                hasError = true;
+            }
+        } else {
+            setDateTimeError(false);
+        }
+
+        if (location.trim() === "") {
+            setLocationError(true);
+            if (!hasError) {
+                locationRef.current?.focus();
+                hasError = true;
+            }
+        } else {
+            setTitleError(false);
+        }
+
+        if (minPeople !== undefined && maxPeople !== undefined && maxPeople < minPeople) {
+            setPeopleError(true);
+            if (!hasError) {
+                minPeopleRef.current?.focus();
+                hasError = true;
+            }
+        } else {
+            setPeopleError(false);
+        }
+
+
+        if (!hasError) {
+            handleButtonClicked();
+        }
     };
     
 
@@ -99,13 +160,21 @@ function CreateEvent(props: ICreateEventProps) {
                         type="datetime-local"
                         id="dateTime"
                         value={dateTime}
-                        onChange={(e) => setDateTime(e.target.value)} />
+                        onChange={(e) => setDateTime(e.target.value)}
+                        required
+                        aria-invalid={dateTimeError}
+                        aria-describedby="dateTimeError"
+                        ref={dateTimeRef} />
                 </div>
                 <GeneralInput
                     id="location"
                     label="Location"
                     value={location}
-                    onChange={(e) => setLocation(e.target.value)}/>
+                    onChange={(e) => setLocation(e.target.value)}
+                    required
+                    aria-invalid={locationError}
+                    aria-describedby="locationError"
+                    inputRef={locationRef} />
                 <div className="description-container">
                     <label htmlFor="description">  Description (optional)  </label>
                     <textarea
@@ -118,10 +187,17 @@ function CreateEvent(props: ICreateEventProps) {
                     minPeople={minPeople}
                     maxPeople={maxPeople}
                     onMinPeopleChange={(e) => setMinPeople(e.target.value === "" ? undefined : parseInt(e.target.value))}
-                    onMaxPeopleChange={(e) => setMaxPeople(e.target.value === "" ? undefined : parseInt(e.target.value))} />
+                    onMaxPeopleChange={(e) => setMaxPeople(e.target.value === "" ? undefined : parseInt(e.target.value))}
+                    required
+                    aria-invalid={peopleError}
+                    aria-describedby="peopleError"
+                    inputRef={minPeopleRef}/>
                 
                 <div className="error-messages">
                     {titleError && (<p id="titleError"> Title cannot be empty</p>)}
+                    {dateTimeError && (<p id="dateTimeError">Date + Time cannot be in the past</p>)}
+                    {locationError && (<p id="locationError">Location cannot be empty</p>)}
+                    {peopleError && (<p id="peopleError">Max people cannot be less than min people</p>)}
                 </div>
                 <div className="buttons">
                     <button type="submit">Submit</button>

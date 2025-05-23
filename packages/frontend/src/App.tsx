@@ -34,6 +34,7 @@ const initialEvents = [
         title: "Game Night",
         numInterested: 1,
         dateTime: "04/27/2025 1:30am",
+        maxPeople: 1,
         isInterested: false,
         isOwnEvent: false,
     },

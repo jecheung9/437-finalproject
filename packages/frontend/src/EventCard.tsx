@@ -19,7 +19,7 @@ function EventCard(props: IEventCardProps) {
             <ul>
                 <li><b>Interested: {props.numInterested}</b></li>
                 <li>{props.dateTime}</li>
-                {props.location && <li>{props.location}</li>}
+                {props.location && <li>Location: {props.location}</li>}
                 {props.description && <li>{props.description}</li>}
                 {props.minPeople && <li>Minimum People: {props.minPeople}</li>}
                 {props.maxPeople && <li>Maximum people: {props.maxPeople}</li>}
