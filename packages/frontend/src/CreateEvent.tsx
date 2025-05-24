@@ -71,7 +71,7 @@ function CreateEvent(props: ICreateEventProps) {
         }
 
         hourString = hour.toString().padStart(2, '0');
-        
+
         return `${year}-${month}-${day}T${hourString}:${minute}`;
     }
 

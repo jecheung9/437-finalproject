@@ -15,6 +15,7 @@ function PeopleInput(props: IPeopleInputProps) {
     <div className="people-container">
       <label>People (optional)</label>
       <div className="people-inputs">
+        <label className="hide" htmlFor="min-people">Minimum</label>
         <input
           type="number"
           id="min-people"
@@ -24,6 +25,7 @@ function PeopleInput(props: IPeopleInputProps) {
           onChange={props.onMinPeopleChange}
           ref={props.inputRef}/>
           to
+        <label className="hide" htmlFor="max-people">Maximum</label>
         <input
           type="number"
           id="max-people"

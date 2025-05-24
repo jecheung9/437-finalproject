@@ -104,7 +104,13 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: red;
+    color: #EB0000;
+}
+.hide {
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
 }
 
 /* eventdetails.css */
