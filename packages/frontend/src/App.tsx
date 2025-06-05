@@ -6,6 +6,7 @@ import type { IEventCardProps } from "./EventCard";
 import EventDetails from "./EventDetails";
 import { Layout } from "./Layout";
 import { useNavigate } from "react-router";
+import { ValidRoutes } from "../../backend/src/shared/ValidRoutes.ts"
 
 const initialEvents = [
     {
@@ -91,10 +92,10 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout/>}>
+            <Route path={ValidRoutes.HOME} element={<Layout/>}>
                 <Route index element={<Home events={events} />} />
-                <Route path="create" element={<CreateEvent onAddEvent={addEvent} nextId={nextId} setNextId={setNextId} />} />
-                <Route path="events/:id" element={<EventDetails events={events} toggleInterest={toggleInterest} deleteEvent={deleteEvent} onEditEvent={editEvent} />} />
+                <Route path={ValidRoutes.CREATE} element={<CreateEvent onAddEvent={addEvent} nextId={nextId} setNextId={setNextId} />} />
+                <Route path={ValidRoutes.EVENTS} element={<EventDetails events={events} toggleInterest={toggleInterest} deleteEvent={deleteEvent} onEditEvent={editEvent} />} />
             </Route>
         </Routes>
     );
