@@ -8,9 +8,21 @@ interface IEventDetailsProps {
     toggleInterest: (id: string) => void;
     deleteEvent: (id: string) => void;
     onEditEvent: (updatedEvent: IEventCardProps) => void;
+    isLoading: boolean;
+    hasError: boolean;
 }
 
 function EventDetails(props: IEventDetailsProps) {
+
+
+    if (props.isLoading) {
+        return <p>Loading event details...</p>;
+    }
+
+    if (props.hasError) {
+        return <p>Failed to load event details...</p>;
+    }
+
 
     // Getting details of an event based on id
     const { id } = useParams();

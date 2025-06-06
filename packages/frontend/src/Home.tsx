@@ -5,10 +5,22 @@ import { Link } from "react-router";
 
 interface IHomeProps {
     events: IEventCardProps[];
+    isLoading: boolean;
+    hasError: boolean;
 }
 
 
-function Home({events}: IHomeProps) {
+function Home({ events, isLoading, hasError }: IHomeProps) {
+    
+    if (isLoading) {
+        return <p> Loading...</p>
+    }
+
+    if (hasError) {
+        return <p> There was an error...</p>
+    }
+
+
     function renderEventCards(eventList: IEventCardProps[]) {
         return eventList.map((event) => (
         <Link className="card" key={event.id} to={"/events/" + event.id}>
