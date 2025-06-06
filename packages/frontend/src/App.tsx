@@ -18,6 +18,7 @@ function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [authToken, setAuthToken] = useState("");
+    const [currentUser, setCurrentUser] = useState("");
     const navigate = useNavigate(); // navigate to go back to the home page on specific button clicks
 
 
@@ -59,6 +60,7 @@ function App() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify(newEvent),
         })
@@ -96,6 +98,7 @@ function App() {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify(updatedEvent),
         })
@@ -123,6 +126,9 @@ function App() {
         setHasError(false);
         fetch(`/api/events/${eventId}`, {
             method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            },
         })
             .then(res => {
                 if (res.status >= 400) {
@@ -148,6 +154,7 @@ function App() {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify(updatedEvent),
         })
@@ -167,8 +174,9 @@ function App() {
             });
     }
 
-    function handleLogin(token: string) {
+    function handleLogin(token: string, username: string) {
         setAuthToken(token);
+        setCurrentUser(username);
         fetchEvents(token);
     }
 
@@ -180,14 +188,16 @@ function App() {
                         <Home
                             events={events}
                             isLoading={isLoading}
-                            hasError={hasError} />
+                            hasError={hasError}
+                            currentUser={currentUser} />
                     </ProtectedRoute>} />
                 <Route path={ValidRoutes.CREATE} element={
                     <ProtectedRoute authToken={authToken}>
                         <CreateEvent
                             onAddEvent={addEvent}
                             nextId={nextId}
-                            setNextId={setNextId} />
+                            setNextId={setNextId}
+                            currentUser={currentUser}/>
                         </ProtectedRoute>} />
                 <Route path={ValidRoutes.EVENTS} element={
                     <ProtectedRoute authToken={authToken}>
@@ -197,7 +207,8 @@ function App() {
                         deleteEvent={deleteEvent}
                         onEditEvent={editEvent}
                         isLoading={isLoading}
-                        hasError={hasError} />
+                        hasError={hasError}
+                        currentUser={currentUser}/>
                     </ProtectedRoute>} />
                 <Route path={ValidRoutes.LOGIN} element={
                     <LoginPage

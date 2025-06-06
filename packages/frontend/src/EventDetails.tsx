@@ -10,6 +10,7 @@ interface IEventDetailsProps {
     onEditEvent: (updatedEvent: IEventCardProps) => void;
     isLoading: boolean;
     hasError: boolean;
+    currentUser: string;
 }
 
 function EventDetails(props: IEventDetailsProps) {
@@ -49,12 +50,14 @@ function EventDetails(props: IEventDetailsProps) {
                     nextId={parseInt(event.id)}
                     setNextId={() => { }}
                     onCancel={() => setIsEditing(false)}
+                    currentUser={props.currentUser}
                     />
                 </div>
             ) : (
                 <>
                     <div className="event">
                         <div className="label"> Title </div> {event.title}
+                        <div className="label"> Created by </div> {event.author}
                         <div className="label"> Interested </div> {event.numInterested}
                         <div className="label">  Date and Time </div> {event.dateTime}
                         <div className="label">  Location  </div> {event.location || "N/A"}
@@ -66,15 +69,15 @@ function EventDetails(props: IEventDetailsProps) {
                     {/* buttons show based on criteria, and clicking the buttons
                     will call the functions as props */}
                     <div className="buttons">
-                        {!event.isOwnEvent && (
+                        {event.author !== props.currentUser && (
                             <button
                                 onClick={() => props.toggleInterest(event.id)}
                                 disabled={(event.maxPeople !== undefined && event.numInterested === event.maxPeople && !event.isInterested)}>
                                 {!event.isInterested ? "I'm interested!" : "Uninterest"} 
                             </button>)}
-                        {event.isOwnEvent && (
+                        {event.author === props.currentUser && (
                             <button onClick={() => setIsEditing(true)}>Edit</button>)}
-                        {event.isOwnEvent && (
+                        {event.author === props.currentUser && (
                             <button onClick={() => props.deleteEvent(event.id)}>Delete</button>)}
                     </div>
                 </>

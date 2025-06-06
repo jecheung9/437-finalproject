@@ -7,10 +7,11 @@ interface IHomeProps {
     events: IEventCardProps[];
     isLoading: boolean;
     hasError: boolean;
+    currentUser: string;
 }
 
 
-function Home({ events, isLoading, hasError }: IHomeProps) {
+function Home({ events, isLoading, hasError, currentUser }: IHomeProps) {
     
     if (isLoading) {
         return <p> Loading...</p>
@@ -35,13 +36,13 @@ function Home({ events, isLoading, hasError }: IHomeProps) {
                 minPeople={event.minPeople}
                 maxPeople={event.maxPeople}
                 isInterested={event.isInterested}
-                isOwnEvent={event.isOwnEvent}
+                author={event.author}
             />
         </Link>
         ));
     }
 
-    const yourEvents = events.filter((event) => event.isOwnEvent);
+    const yourEvents = events.filter((event) => event.author === currentUser);
     const interestedEvents = events.filter((event) => event.isInterested);
 
     return (

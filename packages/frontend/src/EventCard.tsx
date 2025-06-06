@@ -8,7 +8,7 @@ export interface IEventCardProps {
     minPeople?: number;
     maxPeople?: number;
     isInterested: boolean;
-    isOwnEvent: boolean;
+    author: string;
     
 }
 
@@ -17,6 +17,7 @@ function EventCard(props: IEventCardProps) {
         <li>
             <h2>{props.title}</h2>
             <ul>
+                <li><b>Created by: {props.author}</b></li>
                 <li><b>Interested: {props.numInterested}</b></li>
                 <li>{props.dateTime}</li>
                 {props.location && <li>Location: {props.location}</li>}

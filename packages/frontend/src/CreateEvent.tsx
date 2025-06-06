@@ -9,6 +9,7 @@ interface ICreateEventProps {
     setNextId: (id: number) => void;
     eventToEdit?: IEventCardProps;
     onCancel?: () => void;
+    currentUser: string;
 }
 
 function CreateEvent(props: ICreateEventProps) {
@@ -89,7 +90,7 @@ function CreateEvent(props: ICreateEventProps) {
             minPeople,
             maxPeople,
             isInterested: false,
-            isOwnEvent: true,
+            author: props.currentUser,
         };
         props.onAddEvent(newEvent);
         props.setNextId(props.nextId + 1);

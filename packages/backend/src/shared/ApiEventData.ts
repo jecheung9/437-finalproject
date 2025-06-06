@@ -8,7 +8,7 @@ export interface IApiEventData {
     minPeople?: number;
     maxPeople?: number;
     isInterested: boolean;
-    isOwnEvent: boolean;
+    author: string;
 }
 
 
@@ -21,7 +21,7 @@ export const initialEvents: IApiEventData[] = [
         location: "12345 Jones Ave.",
         description: "Some form of a description here",
         isInterested: false,
-        isOwnEvent: true,
+        author: "test123"
     },
     {
         id: "2",
@@ -32,7 +32,7 @@ export const initialEvents: IApiEventData[] = [
         description: "Some form of a description here that is very long to test some stuff 123aaaaaaaaaa",
         maxPeople: 400,
         isInterested: true,
-        isOwnEvent: false,
+        author: "test12"
     },
     {
         id: "3",
@@ -41,7 +41,7 @@ export const initialEvents: IApiEventData[] = [
         dateTime: "04/27/2025 1:30am",
         maxPeople: 1,
         isInterested: false,
-        isOwnEvent: false,
+        author: "test12"
     },
     {
         id: "4",
@@ -52,6 +52,6 @@ export const initialEvents: IApiEventData[] = [
         description: "Some form of a description here",
         minPeople: 2,
         isInterested: false,
-        isOwnEvent: false,
+        author: "test122"
     },
 ];

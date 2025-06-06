@@ -11,7 +11,7 @@ interface IEventDocument {
     minPeople?: number;
     maxPeople?: number;
     isInterested: boolean;
-    isOwnEvent: boolean;
+    author: string;
     
 }
 

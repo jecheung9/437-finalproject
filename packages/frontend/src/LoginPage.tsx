@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 interface ILoginPageProps {
     isRegistering: boolean;
-    onLogin?: (token: string) => void;
+    onLogin?: (token: string, username: string) => void;
 }
 
 export function LoginPage(props: ILoginPageProps) {
@@ -29,7 +29,7 @@ export function LoginPage(props: ILoginPageProps) {
             .then((returnval) => {
                 console.log("successfully created account");
                 console.log("Token: ", returnval.token);
-                props.onLogin?.(returnval.token);
+                props.onLogin?.(returnval.token, username);
                 navigate("/");
                 return { success: true, message: "" };
             })
@@ -54,7 +54,7 @@ export function LoginPage(props: ILoginPageProps) {
             })
             .then((returnval) => {
                 console.log("Token: ", returnval.token);
-                props.onLogin?.(returnval.token);
+                props.onLogin?.(returnval.token, username);
                 navigate("/");
                 return { success: true, message: "" };
             })
@@ -94,7 +94,7 @@ export function LoginPage(props: ILoginPageProps) {
             </form>
             {!props.isRegistering && (
                 <p>
-                    Don't have an account? <Link to="/register"> Register here</Link>
+                    Don't have an account? <Link className="register-link" to="/register"> Register here</Link>
                 </p>
             )}
         </div>

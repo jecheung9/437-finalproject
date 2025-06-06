@@ -149,6 +149,14 @@ button {
     padding: var(--spacing-small);
 }
 
+.register-link {
+  color: black; 
+}
+
+.dark .register-link {
+  color: white;
+}
+
 
 @media (min-width: 42em) {
     /* this is for desktop screens */
