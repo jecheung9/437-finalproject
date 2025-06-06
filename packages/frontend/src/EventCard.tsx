@@ -1,5 +1,5 @@
 export interface IEventCardProps {
-    id: string;
+    _id?: string; 
     title: string; 
     numInterested: number;
     dateTime: string;

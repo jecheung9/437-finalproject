@@ -5,8 +5,6 @@ import type { IEventCardProps } from "./EventCard"
 
 interface ICreateEventProps {
     onAddEvent: (newEvent: IEventCardProps) => void;
-    nextId: number;
-    setNextId: (id: number) => void;
     eventToEdit?: IEventCardProps;
     onCancel?: () => void;
     currentUser: string;
@@ -19,8 +17,6 @@ function CreateEvent(props: ICreateEventProps) {
     const [description, setDescription] = useState(props.eventToEdit?.description || "");
     const [minPeople, setMinPeople] = useState(props.eventToEdit?.minPeople);
     const [maxPeople, setMaxPeople] = useState(props.eventToEdit?.maxPeople);
-    // const [minPeople, setMinPeople] = useState<number | undefined>(undefined);
-    // const [maxPeople, setMaxPeople] = useState<number | undefined>(undefined);
 
     const [titleError, setTitleError] = useState(false);
     const [dateTimeError, setDateTimeError] = useState(false);
@@ -81,7 +77,6 @@ function CreateEvent(props: ICreateEventProps) {
     function handleButtonClicked() {
         const dateTimeNew = formatDateTime(dateTime);
         const newEvent = {
-            id: props.eventToEdit? props.eventToEdit.id: String(props.nextId),
             title: title,
             numInterested: props.eventToEdit ? props.eventToEdit.numInterested : 0,
             dateTime: dateTimeNew,
@@ -93,7 +88,6 @@ function CreateEvent(props: ICreateEventProps) {
             author: props.currentUser,
         };
         props.onAddEvent(newEvent);
-        props.setNextId(props.nextId + 1);
         if (!props.eventToEdit) {
             setTitle("");
             setLocation("");

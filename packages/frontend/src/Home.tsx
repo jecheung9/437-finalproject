@@ -24,10 +24,10 @@ function Home({ events, isLoading, hasError, currentUser }: IHomeProps) {
 
     function renderEventCards(eventList: IEventCardProps[]) {
         return eventList.map((event) => (
-        <Link className="card" key={event.id} to={"/events/" + event.id}>
+        <Link className="card" key={event._id} to={"/events/" + event._id}>
             <EventCard
-                id={event.id}
-                key={event.id}    
+                _id={event._id}
+                key={event._id}    
                 title={event.title}
                 numInterested={event.numInterested}
                 dateTime={event.dateTime}

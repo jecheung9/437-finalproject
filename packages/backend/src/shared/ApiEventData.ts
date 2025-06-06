@@ -1,5 +1,4 @@
 export interface IApiEventData {
-    id: string;
     title: string; 
     numInterested: number;
     dateTime: string;
@@ -14,7 +13,6 @@ export interface IApiEventData {
 
 export const initialEvents: IApiEventData[] = [
     {
-        id: "1",
         title: "Birthday Party",
         numInterested: 6,
         dateTime: "04/24/2025 5:30pm",
@@ -24,7 +22,6 @@ export const initialEvents: IApiEventData[] = [
         author: "test123"
     },
     {
-        id: "2",
         title: "Wedding",
         numInterested: 400,
         dateTime: "04/26/2025 9:30am",
@@ -35,7 +32,6 @@ export const initialEvents: IApiEventData[] = [
         author: "test12"
     },
     {
-        id: "3",
         title: "Game Night",
         numInterested: 1,
         dateTime: "04/27/2025 1:30am",
@@ -44,7 +40,6 @@ export const initialEvents: IApiEventData[] = [
         author: "test12"
     },
     {
-        id: "4",
         title: "NBA Playoffs Watch Party",
         numInterested: 4,
         dateTime: "04/26/2025 5:30pm",

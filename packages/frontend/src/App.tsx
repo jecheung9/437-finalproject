@@ -14,12 +14,11 @@ import { ProtectedRoute } from "./ProtectedRoute.tsx";
 
 function App() {
     const [events, setEvents] = useState<IEventCardProps[]>([]); 
-    const [nextId, setNextId] = useState(1); 
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
     const [authToken, setAuthToken] = useState("");
     const [currentUser, setCurrentUser] = useState("");
-    const navigate = useNavigate(); // navigate to go back to the home page on specific button clicks
+    const navigate = useNavigate();
 
 
     function fetchEvents(authToken: string) {
@@ -40,7 +39,6 @@ function App() {
         .then((data) => {
             setEvents(data);
             setIsLoading(false);
-            setNextId(data.length + 1);
         })
         .catch(() => {
             setHasError(true);
@@ -68,10 +66,9 @@ function App() {
                 if (res.status >= 400) {
                     throw new Error("HTTP " + res.status);
                 }
-                return;   
             })
             .then(() => {
-                setEvents((events) => [...events, newEvent]);
+                fetchEvents(authToken);
                 setIsLoading(false);
                 navigate("/")
             }).catch(() => {
@@ -81,7 +78,7 @@ function App() {
     }
     // toggle interested button function (passed as prop)
     function toggleInterest(eventId: string) { 
-        const event = events.find(e => e.id === eventId);
+        const event = events.find(e => e._id === eventId);
         if (!event) {
             return;
         }
@@ -109,7 +106,7 @@ function App() {
                 return res.json();
             })
             .then((data) => {
-                setEvents(events.map((event) => event.id === data.id ? data : event));
+                setEvents(events.map((event) => event._id === data._id ? data : event));
                 setIsLoading(false);
                 navigate("/");
             })
@@ -136,7 +133,7 @@ function App() {
                 }
                 return;
             }).then(() => {
-                setEvents(events.filter((event) => event.id !== eventId));
+                setEvents(events.filter((event) => event._id !== eventId));
                 navigate("/");
                 setIsLoading(false);
             })
@@ -148,9 +145,11 @@ function App() {
 
     // edit event function
     function editEvent(updatedEvent: IEventCardProps) {
+        console.log(updatedEvent)
+        const updatedEventId = updatedEvent._id?.toString();
         setIsLoading(true);
         setHasError(false);
-        fetch(`/api/events/${updatedEvent.id}`, {
+        fetch(`/api/events/${updatedEventId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -165,7 +164,7 @@ function App() {
                 return res.json();
             })
             .then((data) => {
-                setEvents(events.map((event) => event.id === data.id ? data : event));
+                setEvents(events.map((event) => event._id?.toString() === data._id.toString() ? data : event));
                 setIsLoading(false);
             })
             .catch(() => {
@@ -195,8 +194,6 @@ function App() {
                     <ProtectedRoute authToken={authToken}>
                         <CreateEvent
                             onAddEvent={addEvent}
-                            nextId={nextId}
-                            setNextId={setNextId}
                             currentUser={currentUser}/>
                         </ProtectedRoute>} />
                 <Route path={ValidRoutes.EVENTS} element={

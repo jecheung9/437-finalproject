@@ -15,20 +15,13 @@ export function registerEventRoutes(app: express.Application, eventProvider: Eve
 
     app.post("/api/events", (req: Request, res: Response) => {
         const newEvent = req.body;
-        eventProvider.getEventById(newEvent.id)
-            .then((data) => {
-                if (data) {
-                    res.status(409).send("Event with this ID already exists");
-                    return;
-                }
-                return eventProvider.addEvent(newEvent)
-                    .then(() => res.status(201).send())
-                    .catch(() => res.status(500).send("Something went wrong"));
-            })
+        eventProvider.addEvent(newEvent)
+            .then(() => res.status(201).send())
             .catch(() => {
                 res.status(500).send("Something went wrong");
             });
-    })
+    });
+
 
     app.delete("/api/events/:id", (req: Request, res: Response) => {
         const eventId = req.params.id;

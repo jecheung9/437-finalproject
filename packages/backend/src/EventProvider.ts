@@ -2,7 +2,6 @@ import { Collection, MongoClient, ObjectId } from "mongodb";
 
 interface IEventDocument {
     _id: ObjectId;
-    id: string;
     title: string; 
     numInterested: number;
     dateTime: string;
@@ -34,18 +33,14 @@ export class EventProvider {
         return this.collection.insertOne(event);
     }
 
-    getEventById(id: string) {
-        return this.collection.findOne({ id });
-    }
-
     deleteEvent(id: string) {
-        return this.collection.deleteOne({ id: id });
+        return this.collection.deleteOne({ _id: new ObjectId(id) });
     }
 
     updateEvent(id: string, updatedEvent: Partial<IEventDocument>) {
         const { _id, ...updateData } = updatedEvent;
         return this.collection.updateOne(
-            { id },
+            { _id: new ObjectId(id)},
             { $set: updateData }
         );
     }

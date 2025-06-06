@@ -27,14 +27,15 @@ function EventDetails(props: IEventDetailsProps) {
 
     // Getting details of an event based on id
     const { id } = useParams();
-    const event = props.events.find(e => e.id === id);
+    const event = props.events.find(e => e._id === id);
     const [isEditing, setIsEditing] = useState(false);
     if (!event) {
         return <div>Event not found</div>
     };
 
     function handleEditedEvent(updatedEvent: IEventCardProps) {
-        props.onEditEvent(updatedEvent);
+        const newUpdatedEvent = {...updatedEvent, _id: id! }
+        props.onEditEvent(newUpdatedEvent);
         setIsEditing(false);
     }
 
@@ -47,8 +48,6 @@ function EventDetails(props: IEventDetailsProps) {
                 <CreateEvent
                     eventToEdit={event}
                     onAddEvent={handleEditedEvent} 
-                    nextId={parseInt(event.id)}
-                    setNextId={() => { }}
                     onCancel={() => setIsEditing(false)}
                     currentUser={props.currentUser}
                     />
@@ -71,14 +70,14 @@ function EventDetails(props: IEventDetailsProps) {
                     <div className="buttons">
                         {event.author !== props.currentUser && (
                             <button
-                                onClick={() => props.toggleInterest(event.id)}
+                                onClick={() => props.toggleInterest(event._id!)}
                                 disabled={(event.maxPeople !== undefined && event.numInterested === event.maxPeople && !event.isInterested)}>
                                 {!event.isInterested ? "I'm interested!" : "Uninterest"} 
                             </button>)}
                         {event.author === props.currentUser && (
                             <button onClick={() => setIsEditing(true)}>Edit</button>)}
                         {event.author === props.currentUser && (
-                            <button onClick={() => props.deleteEvent(event.id)}>Delete</button>)}
+                            <button onClick={() => props.deleteEvent(event._id!)}>Delete</button>)}
                     </div>
                 </>
             )}
