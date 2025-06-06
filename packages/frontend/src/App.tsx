@@ -44,36 +44,120 @@ function App() {
 
 
 
-    // add event function (passed as a prop, because my state to control events is in here)
     function addEvent(newEvent: IEventCardProps) {
-        const updatedEvents = [...events, newEvent];
-        setEvents(updatedEvents);
-        navigate("/");
+        setIsLoading(true);
+        setHasError(false);
+
+        fetch("/api/events", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEvent),
+        })
+            .then(res => {
+                if (res.status >= 400) {
+                    throw new Error("HTTP " + res.status);
+                }
+                return;   
+            })
+            .then(() => {
+                setEvents((events) => [...events, newEvent]);
+                setIsLoading(false);
+                navigate("/")
+            }).catch(() => {
+                setHasError(true);
+                setIsLoading(false);
+            })
     }
     // toggle interested button function (passed as prop)
     function toggleInterest(eventId: string) { 
-        setEvents(events.map((event) => {
-            if (event.id === eventId) {
-                return {
-                    ...event,
-                    isInterested: !event.isInterested,
-                    numInterested: event.numInterested + (!event.isInterested ? 1 : -1),
-                };
-            }
-            return event;
-        }));
-        navigate("/");
+        const event = events.find(e => e.id === eventId);
+        if (!event) {
+            return;
+        }
+        const updatedEvent = {
+            ...event,
+            isInterested: !event.isInterested,
+            numInterested: event.numInterested + (!event.isInterested ? 1 : -1),
+        };
+
+        setIsLoading(true);
+        setHasError(false);
+
+        fetch(`/api/events/${eventId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedEvent),
+        })
+            .then(res => {
+                if (res.status >= 400) {
+                    throw new Error("HTTP " + res.status);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setEvents(events.map((event) => event.id === data.id ? data : event));
+                setIsLoading(false);
+                navigate("/");
+            })
+            .catch((err) => {
+                console.log("Caught error:", err);
+                setHasError(true);
+                setIsLoading(false);
+            });
     }
 
     // delete event function 
     function deleteEvent(eventId: string) {
-        setEvents(events.filter((event) => event.id !== eventId));
-        navigate("/");
+        setIsLoading(true);
+        setHasError(false);
+        fetch(`/api/events/${eventId}`, {
+            method: "DELETE",
+        })
+            .then(res => {
+                if (res.status >= 400) {
+                    throw new Error("HTTP " + res.status);
+                }
+                return;
+            }).then(() => {
+                setEvents(events.filter((event) => event.id !== eventId));
+                navigate("/");
+                setIsLoading(false);
+            })
+            .catch(() => {
+                setHasError(true);
+                setIsLoading(false);
+            });
     }
 
     // edit event function
     function editEvent(updatedEvent: IEventCardProps) {
-        setEvents(events.map((event) => event.id === updatedEvent.id ? updatedEvent : event));
+        setIsLoading(true);
+        setHasError(false);
+        fetch(`/api/events/${updatedEvent.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedEvent),
+        })
+            .then(res => {
+                if (res.status >= 400) {
+                    throw new Error("HTTP " + res.status);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setEvents(events.map((event) => event.id === data.id ? data : event));
+                setIsLoading(false);
+            })
+            .catch(() => {
+                setHasError(true);
+                setIsLoading(false);
+            });
     }
 
     return (

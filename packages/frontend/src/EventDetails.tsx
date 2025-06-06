@@ -16,11 +16,11 @@ function EventDetails(props: IEventDetailsProps) {
 
 
     if (props.isLoading) {
-        return <p>Loading event details...</p>;
+        return <p>Loading ...</p>;
     }
 
     if (props.hasError) {
-        return <p>Failed to load event details...</p>;
+        return <p>Failed to load ...</p>;
     }
 
 

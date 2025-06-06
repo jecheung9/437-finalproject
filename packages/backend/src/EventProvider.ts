@@ -1,6 +1,7 @@
-import { Collection, MongoClient } from "mongodb";
+import { Collection, MongoClient, ObjectId } from "mongodb";
 
 interface IEventDocument {
+    _id: ObjectId;
     id: string;
     title: string; 
     numInterested: number;
@@ -42,9 +43,10 @@ export class EventProvider {
     }
 
     updateEvent(id: string, updatedEvent: Partial<IEventDocument>) {
+        const { _id, ...updateData } = updatedEvent;
         return this.collection.updateOne(
             { id },
-            { $set: updatedEvent }
+            { $set: updateData }
         );
     }
 }

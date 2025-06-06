@@ -55,7 +55,7 @@ export function registerEventRoutes(app: express.Application, eventProvider: Eve
                     res.status(404).send("Event not found");
                     return;
                 }  
-                res.status(200).send("Event updated successfully");     
+                res.status(200).json(updatedEvent);
             })
             .catch(() => {
                 res.status(500).send("Something went wrong");
