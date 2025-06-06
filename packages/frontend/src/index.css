@@ -135,6 +135,20 @@ button {
     padding: var(--spacing-medium);
 }
 
+/* Login page */
+
+.LoginPage-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.LoginPage-form {
+    max-width: var(--max-width-small);
+    margin: var(--spacing-small);
+    font-size: var(--font-size-xlarge);
+    padding: var(--spacing-small);
+}
+
 
 @media (min-width: 42em) {
     /* this is for desktop screens */

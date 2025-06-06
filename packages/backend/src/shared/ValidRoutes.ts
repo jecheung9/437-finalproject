@@ -1,7 +1,7 @@
 export const ValidRoutes = {
   HOME: "/",
-//   LOGIN: "/login",
+  LOGIN: "/login",
   CREATE: "/create",
   EVENTS: "/events/:id",
-//   REGISTER: "/register",
+  REGISTER: "/register",
 };
