@@ -132,3 +132,6 @@ dist
 # macOS and IDE files
 .idea
 .DS_Store
+
+# API testing
+packages/backend/requests.http

@@ -28,4 +28,23 @@ export class EventProvider {
     getAllEvents() {
         return this.collection.find().toArray();
     }
+
+    addEvent(event: IEventDocument) {
+        return this.collection.insertOne(event);
+    }
+
+    getEventById(id: string) {
+        return this.collection.findOne({ id });
+    }
+
+    deleteEvent(id: string) {
+        return this.collection.deleteOne({ id: id });
+    }
+
+    updateEvent(id: string, updatedEvent: Partial<IEventDocument>) {
+        return this.collection.updateOne(
+            { id },
+            { $set: updatedEvent }
+        );
+    }
 }

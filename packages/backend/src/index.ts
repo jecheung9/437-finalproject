@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import { ValidRoutes } from "./shared/ValidRoutes";
-import { initialEvents } from "./shared/ApiEventData";
 import { connectMongo } from "./connectMongo";
 import { EventProvider } from "./EventProvider";
+import { registerEventRoutes } from "./routes/eventRoutes";
 
 dotenv.config(); // Read the .env file in the current working directory, and load values into process.env.
 const PORT = process.env.PORT || 3000;
@@ -13,21 +13,11 @@ const mongoClient = connectMongo();
 const eventProvider = new EventProvider(mongoClient);
 
 const app = express();
+app.use(express.json()) // middleware
+
 app.use(express.static(STATIC_DIR));
 
-app.get("/api/hello", (req: Request, res: Response) => {
-    res.send("Hello, World");
-});
-
-app.get("/api/events", async (req: Request, res: Response) => {
-    eventProvider.getAllEvents()
-        .then((data) => {
-            res.json(data);
-        })
-        .catch(() => {
-            res.status(500).json({ error: "Failed to fetch events" });
-        });
-});
+registerEventRoutes(app, eventProvider);
 
 app.get(Object.values(ValidRoutes), (req: Request, res: Response) => {
     res.sendFile("index.html", {root: STATIC_DIR})
