@@ -71,8 +71,8 @@ function EventDetails(props: IEventDetailsProps) {
                         {event.author !== props.currentUser && (
                             <button
                                 onClick={() => props.toggleInterest(event._id!)}
-                                disabled={(event.maxPeople !== undefined && event.numInterested === event.maxPeople && !event.isInterested)}>
-                                {!event.isInterested ? "I'm interested!" : "Uninterest"} 
+                                disabled={(event.maxPeople !== undefined && event.numInterested === event.maxPeople && !(event.interestedUsers ?? []).includes(props.currentUser))}>
+                                {!(event.interestedUsers ?? []).includes(props.currentUser) ? "I'm interested!" : "Uninterest"} 
                             </button>)}
                         {event.author === props.currentUser && (
                             <button onClick={() => setIsEditing(true)}>Edit</button>)}

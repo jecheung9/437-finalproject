@@ -84,7 +84,7 @@ function CreateEvent(props: ICreateEventProps) {
             description,
             minPeople,
             maxPeople,
-            isInterested: false,
+            interestedUsers: props.eventToEdit ? props.eventToEdit.interestedUsers : [],
             author: props.currentUser,
         };
         props.onAddEvent(newEvent);

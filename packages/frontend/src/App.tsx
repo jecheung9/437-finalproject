@@ -82,10 +82,15 @@ function App() {
         if (!event) {
             return;
         }
+
+    const interestedUsers = event.interestedUsers ?? [];
+    const isInterested = interestedUsers.includes(currentUser) ?
+        interestedUsers.filter(user => user !== currentUser) : [...interestedUsers, currentUser];
+
         const updatedEvent = {
             ...event,
-            isInterested: !event.isInterested,
-            numInterested: event.numInterested + (!event.isInterested ? 1 : -1),
+            interestedUsers: isInterested,
+            numInterested: isInterested.length
         };
 
         setIsLoading(true);

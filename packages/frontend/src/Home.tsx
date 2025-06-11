@@ -35,7 +35,7 @@ function Home({ events, isLoading, hasError, currentUser }: IHomeProps) {
                 description={event.description}
                 minPeople={event.minPeople}
                 maxPeople={event.maxPeople}
-                isInterested={event.isInterested}
+                interestedUsers={event.interestedUsers ?? []}
                 author={event.author}
             />
         </Link>
@@ -43,7 +43,7 @@ function Home({ events, isLoading, hasError, currentUser }: IHomeProps) {
     }
 
     const yourEvents = events.filter((event) => event.author === currentUser);
-    const interestedEvents = events.filter((event) => event.isInterested);
+    const interestedEvents = events.filter((event) => event.interestedUsers?.includes(currentUser));
 
     return (
         <div>

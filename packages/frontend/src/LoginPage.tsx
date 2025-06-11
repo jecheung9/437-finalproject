@@ -34,7 +34,7 @@ export function LoginPage(props: ILoginPageProps) {
                 return { success: true, message: "" };
             })
             .catch(() => {
-                return { success: false, message: "Failed to create account, try again" };
+                return { success: false, message: "Username already exists, please try again" };
             });
     }
 
@@ -59,7 +59,7 @@ export function LoginPage(props: ILoginPageProps) {
                 return { success: true, message: "" };
             })
             .catch(() => {
-                return { success: false, message: "Failed to login, try again" };
+                return { success: false, message: "Incorrect username or password, please try again" };
             });
     }
 

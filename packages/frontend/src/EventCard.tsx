@@ -7,7 +7,7 @@ export interface IEventCardProps {
     description?: string;
     minPeople?: number;
     maxPeople?: number;
-    isInterested: boolean;
+    interestedUsers: string[];
     author: string;
     
 }

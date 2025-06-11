@@ -9,7 +9,7 @@ interface IEventDocument {
     description?: string;
     minPeople?: number;
     maxPeople?: number;
-    isInterested: boolean;
+    usersInterested: string[];
     author: string;
     
 }

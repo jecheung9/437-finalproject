@@ -75,7 +75,7 @@ export function registerAuthRoutes(app: express.Application, credentialsProvider
                 return generateAuthToken(username, jwtsecret);
             }).then((token) => {
                 if (token) {
-                    res.status(200).send({token});
+                    res.status(201).send({token});
                 }
             }).catch(() => {
                 res.status(500).json({ error: "Some error occurred" });
