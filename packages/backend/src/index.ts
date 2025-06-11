@@ -33,4 +33,8 @@ app.get(Object.values(ValidRoutes), (req: Request, res: Response) => {
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
+
+    setInterval(() => {
+        eventProvider.deleteOldEvents();
+    }, 10 * 60 * 1000);
 });
